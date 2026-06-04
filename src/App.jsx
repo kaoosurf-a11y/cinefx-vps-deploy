@@ -334,42 +334,42 @@ function CategoryRow({ category, posterHeight = 80, count = 4 }) {
 
 function HeroMockup() {
   return (
-    <div style={{ position: "relative", width: "100%", maxWidth: 600, margin: "0 auto", paddingBottom: 60 }}>
-      {/* TV principal */}
+    <div style={{ position: "relative", width: "100%", maxWidth: 620, margin: "0 auto", paddingBottom: 30 }}>
+      {/* TV principal — preenche todo o espaço */}
       <div style={{
         position: "relative",
         background: "linear-gradient(180deg, #1a1030 0%, #0a0518 100%)",
-        border: "2px solid rgba(0,240,255,0.35)",
-        borderRadius: 20,
+        border: "2px solid rgba(0,240,255,0.4)",
+        borderRadius: 18,
         padding: 12,
         boxShadow: "0 30px 80px rgba(0,0,0,0.8), 0 0 100px rgba(0,240,255,0.25)",
       }}>
         <div style={{
           borderRadius: 12,
           overflow: "hidden",
-          aspectRatio: "16/9",
+          aspectRatio: "16/10",
           position: "relative",
-          padding: "10px 12px 8px",
+          padding: "14px 12px 12px",
           background: "linear-gradient(135deg, #100022 0%, #050015 100%)",
         }}>
           {/* Header da TV */}
           <div style={{
             display: "flex", justifyContent: "space-between", alignItems: "center",
-            marginBottom: 8, padding: "0 2px",
+            marginBottom: 12, padding: "0 4px",
           }}>
             <span style={{
-              fontSize: 14, letterSpacing: 1, fontWeight: 800,
+              fontSize: 16, letterSpacing: 1, fontWeight: 800,
               background: "linear-gradient(90deg, #00f0ff, #ff00d4)",
               WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
             }}>CineFX</span>
-            <span style={{ color: "rgba(255,255,255,0.55)", fontSize: 7.5, letterSpacing: 1, fontWeight: 600 }}>
-              <span style={{ color: "#ff006e", marginRight: 3 }}>●</span>AO VIVO
+            <span style={{ color: "rgba(255,255,255,0.6)", fontSize: 9, letterSpacing: 1, fontWeight: 600 }}>
+              <span style={{ color: "#ff006e", marginRight: 4 }}>●</span>AO VIVO
             </span>
           </div>
-          {/* Categorias — 4 linhas com 7 posters cada para preencher horizontalmente */}
+          {/* 3 categorias × 8 posters cada = preenche horizontalmente */}
           <div style={{ overflow: "hidden" }}>
-            {CATEGORIES.slice(0, 4).map((c) => (
-              <CategoryRow key={c.name} category={c} posterHeight={40} count={7} />
+            {CATEGORIES.slice(0, 3).map((c) => (
+              <CategoryRow key={c.name} category={c} posterHeight={68} count={8} />
             ))}
           </div>
         </div>
@@ -379,17 +379,18 @@ function HeroMockup() {
         </div>
       </div>
 
-      {/* Celular flutuante — maior e mais visível */}
+      {/* Celular sobreposto à direita da TV */}
       <div style={{
         position: "absolute",
-        bottom: 0, right: -14,
-        width: 155,
+        top: "32%", right: -22,
+        width: 145,
         background: "linear-gradient(180deg, #1a1030, #0a0518)",
-        border: "2px solid rgba(255,0,212,0.5)",
-        borderRadius: 26,
-        padding: 6,
-        boxShadow: "0 25px 60px rgba(0,0,0,0.7), 0 0 70px rgba(255,0,212,0.35)",
-        transform: "rotate(5deg)",
+        border: "2px solid rgba(255,0,212,0.6)",
+        borderRadius: 24,
+        padding: 5,
+        boxShadow: "0 25px 60px rgba(0,0,0,0.8), 0 0 70px rgba(255,0,212,0.4)",
+        transform: "rotate(6deg)",
+        zIndex: 2,
       }}>
         <div style={{
           background: "linear-gradient(135deg, #100022, #050015)",
@@ -406,10 +407,10 @@ function HeroMockup() {
               WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
             }}>CineFX</span>
           </div>
-          {/* 3 categorias com 4 posters — preenchimento bom */}
+          {/* 3 categorias × 4 posters no celular */}
           <div style={{ overflow: "hidden" }}>
-            {CATEGORIES.slice(4, 7).map((c) => (
-              <CategoryRow key={c.name} category={c} posterHeight={34} count={4} />
+            {CATEGORIES.slice(3, 6).map((c) => (
+              <CategoryRow key={c.name} category={c} posterHeight={38} count={4} />
             ))}
           </div>
         </div>
