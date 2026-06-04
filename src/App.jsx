@@ -51,15 +51,79 @@ const benefits = [
   { icon: "💸", title: "Cancele quando quiser", desc: "Sem fidelidade, sem taxa de cancelamento. Você no controle, sempre." },
 ];
 
-// Categorias de catálogo para o mockup
+// Catálogo com fotos REAIS por gênero (Unsplash)
+const UNS = (id) => `https://images.unsplash.com/photo-${id}?w=300&h=450&fit=crop&auto=format&q=80`;
 const CATEGORIES = [
-  { name: "Ação",    icon: "💥", colors: ["#ff006e", "#ff4d00", "#ffbe0b", "#ef233c"] },
-  { name: "Comédia", icon: "😂", colors: ["#ffbe0b", "#06ffa5", "#00f0ff", "#fb5607"] },
-  { name: "Romance", icon: "💕", colors: ["#ff00d4", "#ff4d8d", "#b14aed", "#ff006e"] },
-  { name: "Drama",   icon: "🎭", colors: ["#8338ec", "#3a0ca3", "#7209b7", "#560bad"] },
-  { name: "Jogos",   icon: "🎮", colors: ["#00f0ff", "#0077b6", "#06ffa5", "#0096c7"] },
-  { name: "Esportes",icon: "⚽", colors: ["#06ffa5", "#00b4d8", "#00f0ff", "#0077b6"] },
-  { name: "Doramas", icon: "🌸", colors: ["#ff00d4", "#b14aed", "#ff4d8d", "#c77dff"] },
+  {
+    name: "Ação", icon: "💥", fallback: "#ef233c",
+    posters: [
+      UNS("1547700055-b61cacebece9"),  // cidade noturna ação
+      UNS("1626806787461-102c1bfaaea1"), // herói
+      UNS("1574375927938-d5a98e8ffe85"), // soldado
+      UNS("1635863138275-d9b33299680b"), // armas
+      UNS("1518929458119-e5bf444c30f4"), // tactical
+    ],
+  },
+  {
+    name: "Comédia", icon: "😂", fallback: "#ffbe0b",
+    posters: [
+      UNS("1499346030926-9a72daac6c63"), // rindo
+      UNS("1525351549620-9c5e5d72ee29"), // amigos felizes
+      UNS("1543610892-0b1f7e6d8ac1"),    // homem rindo
+      UNS("1517457373958-b7bdd4587205"), // pessoa engraçada
+      UNS("1522202176988-66273c2fd55f"), // grupo rindo
+    ],
+  },
+  {
+    name: "Romance", icon: "💕", fallback: "#ff00d4",
+    posters: [
+      UNS("1518621736915-f3b1c41bfd00"), // casal mãos
+      UNS("1494774157365-9e04c6720e47"), // casal pôr-do-sol
+      UNS("1516589178581-6cd7833ae3b2"), // beijo
+      UNS("1507003211169-0a1dd7228f2d"), // casal romântico
+      UNS("1529333166437-7750a6dd5a70"), // casal abraço
+    ],
+  },
+  {
+    name: "Drama", icon: "🎭", fallback: "#8338ec",
+    posters: [
+      UNS("1500648767791-00dcc994a43e"), // homem pensativo
+      UNS("1521119989659-a83eee488004"), // emoção
+      UNS("1531123897727-8f129e1688ce"), // rosto dramático
+      UNS("1499952127939-9bbf5af6c51c"), // mulher pensativa
+      UNS("1506794778202-cad84cf45f1d"), // close emocional
+    ],
+  },
+  {
+    name: "Aventura", icon: "🚗", fallback: "#fb5607",
+    posters: [
+      UNS("1503376780353-7e6692767b70"), // carro veloz Lambo
+      UNS("1492144534655-ae79c964c9d7"), // estrada montanhas
+      UNS("1485291571150-772bcfc10da5"), // muscle car
+      UNS("1502877338535-766e1452684a"), // aventura natureza
+      UNS("1469854523086-cc02fe5d8800"), // estrada veloz
+    ],
+  },
+  {
+    name: "Esportes", icon: "⚽", fallback: "#06ffa5",
+    posters: [
+      UNS("1431324155629-1a6deb1dec8d"), // futebol estádio
+      UNS("1517649763962-0c623066013b"), // atleta correndo
+      UNS("1546519638-68e109498ffc"),    // basquete
+      UNS("1552674605-db6ffd4facb5"),    // futebol gol
+      UNS("1574629810360-7efbbe195018"), // atleta velocidade
+    ],
+  },
+  {
+    name: "Doramas", icon: "🌸", fallback: "#c77dff",
+    posters: [
+      UNS("1607082348824-0a96f2a4b9da"), // casal asiático
+      UNS("1535868463750-c78d9543614f"), // estética coreana
+      UNS("1493106819501-66d381c466f1"), // rua Seul
+      UNS("1551446591-142875a901a1"),    // cenário asiático
+      UNS("1528360983277-13d401cdc186"), // K-drama vibe
+    ],
+  },
 ];
 
 const BUYER_NAMES = ["Carlos M.", "Ana Paula S.", "José Roberto L.", "Fernanda C.", "Marcos A.", "Juliana R.", "Paulo Henrique T.", "Camila F.", "Leonardo B.", "Mariana G.", "Rafael O.", "Patrícia N.", "Diego S.", "Larissa M.", "Thiago P.", "Beatriz A.", "Anderson L.", "Renata C.", "Fabio R.", "Vanessa T.", "Rodrigo B.", "Aline F.", "Eduardo M.", "Priscila S.", "Guilherme N."];
@@ -203,41 +267,50 @@ function LiveBuyerToast() {
 }
 
 // ─── HERO MOCKUP — Catálogo por gênero ───
-function PosterCard({ color, height = 80, label }) {
+function PosterCard({ src, fallback = "#1a0030", height = 80 }) {
+  const [errored, setErrored] = useState(false);
+  const width = height * 0.68;
   return (
     <div style={{
       flexShrink: 0,
-      width: height * 0.68,
-      height: height,
-      borderRadius: 8,
-      background: `linear-gradient(135deg, ${color}, ${color}aa)`,
-      position: "relative",
+      width, height,
+      borderRadius: 6,
       overflow: "hidden",
-      boxShadow: "0 4px 12px rgba(0,0,0,0.4)",
-      display: "flex",
-      alignItems: "flex-end",
-      padding: 6,
+      position: "relative",
+      boxShadow: "0 4px 12px rgba(0,0,0,0.5)",
+      background: fallback,
     }}>
-      {/* Brilho diagonal */}
+      {!errored && src && (
+        <img
+          src={src}
+          alt=""
+          loading="lazy"
+          onError={() => setErrored(true)}
+          style={{
+            width: "100%", height: "100%",
+            objectFit: "cover",
+            display: "block",
+          }}
+        />
+      )}
+      {/* Gradiente escuro embaixo pra dar profundidade */}
       <div style={{
         position: "absolute", inset: 0,
-        background: "linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 50%)",
+        background: "linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.6) 100%)",
         pointerEvents: "none",
       }} />
-      <div style={{ width: "70%", height: 2, background: "rgba(255,255,255,0.7)", borderRadius: 2, position: "relative", zIndex: 1 }} />
     </div>
   );
 }
 
-function CategoryRow({ category, posterHeight = 80, showAll = false }) {
-  const count = showAll ? 6 : 4;
+function CategoryRow({ category, posterHeight = 80, count = 4 }) {
   return (
-    <div style={{ marginBottom: 10 }}>
+    <div style={{ marginBottom: posterHeight > 60 ? 12 : 8 }}>
       <div style={{
         display: "flex", alignItems: "center", gap: 6,
-        marginBottom: 6, paddingLeft: 4,
+        marginBottom: 5, paddingLeft: 2,
       }}>
-        <span style={{ fontSize: posterHeight > 60 ? 12 : 9 }}>{category.icon}</span>
+        <span style={{ fontSize: posterHeight > 60 ? 13 : 10 }}>{category.icon}</span>
         <span style={{
           fontSize: posterHeight > 60 ? 11 : 8,
           fontWeight: 700,
@@ -245,9 +318,14 @@ function CategoryRow({ category, posterHeight = 80, showAll = false }) {
           letterSpacing: 0.5,
         }}>{category.name}</span>
       </div>
-      <div style={{ display: "flex", gap: 6, paddingLeft: 4 }}>
+      <div style={{ display: "flex", gap: 5, paddingLeft: 2 }}>
         {Array.from({ length: count }).map((_, i) => (
-          <PosterCard key={i} color={category.colors[i % category.colors.length]} height={posterHeight} />
+          <PosterCard
+            key={i}
+            src={category.posters[i % category.posters.length]}
+            fallback={category.fallback}
+            height={posterHeight}
+          />
         ))}
       </div>
     </div>
@@ -256,24 +334,23 @@ function CategoryRow({ category, posterHeight = 80, showAll = false }) {
 
 function HeroMockup() {
   return (
-    <div style={{ position: "relative", width: "100%", maxWidth: 560, margin: "0 auto" }}>
+    <div style={{ position: "relative", width: "100%", maxWidth: 580, margin: "0 auto", paddingBottom: 50 }}>
       {/* TV principal */}
       <div style={{
         position: "relative",
         background: "linear-gradient(180deg, #1a1030 0%, #0a0518 100%)",
-        border: "2px solid rgba(0,240,255,0.3)",
-        borderRadius: 20,
-        padding: 14,
-        boxShadow: "0 30px 80px rgba(0,0,0,0.8), 0 0 100px rgba(0,240,255,0.2)",
+        border: "2px solid rgba(0,240,255,0.35)",
+        borderRadius: 18,
+        padding: 12,
+        boxShadow: "0 30px 80px rgba(0,0,0,0.8), 0 0 100px rgba(0,240,255,0.25)",
       }}>
         <div style={{
-          background: "#000",
-          borderRadius: 12,
+          borderRadius: 10,
           overflow: "hidden",
           aspectRatio: "16/9",
           position: "relative",
-          padding: "14px 12px 12px",
-          background: "linear-gradient(135deg, #1a0030 0%, #050015 100%)",
+          padding: "12px 10px 10px",
+          background: "linear-gradient(135deg, #100022 0%, #050015 100%)",
         }}>
           {/* Header da TV */}
           <div style={{
@@ -281,23 +358,23 @@ function HeroMockup() {
             marginBottom: 10, padding: "0 4px",
           }}>
             <span style={{
-              fontSize: 16, letterSpacing: 2, fontWeight: 800,
+              fontSize: 15, letterSpacing: 1, fontWeight: 800,
               background: "linear-gradient(90deg, #00f0ff, #ff00d4)",
               WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-            }}>CINEFX</span>
-            <span style={{ color: "rgba(255,255,255,0.5)", fontSize: 8, letterSpacing: 1 }}>
-              <span style={{ color: "#ff006e" }}>●</span> AO VIVO
+            }}>CineFX</span>
+            <span style={{ color: "rgba(255,255,255,0.55)", fontSize: 8, letterSpacing: 1, fontWeight: 600 }}>
+              <span style={{ color: "#ff006e", marginRight: 3 }}>●</span>AO VIVO
             </span>
           </div>
           {/* Categorias */}
           <div style={{ overflow: "hidden" }}>
             {CATEGORIES.slice(0, 3).map((c) => (
-              <CategoryRow key={c.name} category={c} posterHeight={56} />
+              <CategoryRow key={c.name} category={c} posterHeight={50} count={5} />
             ))}
           </div>
         </div>
         {/* Base TV */}
-        <div style={{ display: "flex", justifyContent: "center", marginTop: 10 }}>
+        <div style={{ display: "flex", justifyContent: "center", marginTop: 8 }}>
           <div style={{ width: 60, height: 4, background: "rgba(0,240,255,0.4)", borderRadius: 4 }} />
         </div>
       </div>
@@ -305,36 +382,34 @@ function HeroMockup() {
       {/* Celular flutuante */}
       <div style={{
         position: "absolute",
-        bottom: -40, right: -10,
-        width: 140,
+        bottom: 0, right: -8,
+        width: 130,
         background: "linear-gradient(180deg, #1a1030, #0a0518)",
-        border: "2px solid rgba(255,0,212,0.4)",
+        border: "2px solid rgba(255,0,212,0.5)",
         borderRadius: 22,
-        padding: 6,
-        boxShadow: "0 20px 50px rgba(0,0,0,0.7), 0 0 60px rgba(255,0,212,0.3)",
-        transform: "rotate(6deg)",
+        padding: 5,
+        boxShadow: "0 25px 60px rgba(0,0,0,0.7), 0 0 70px rgba(255,0,212,0.35)",
+        transform: "rotate(5deg)",
       }}>
         <div style={{
-          background: "linear-gradient(135deg, #1a0030, #050015)",
-          borderRadius: 16,
+          background: "linear-gradient(135deg, #100022, #050015)",
+          borderRadius: 18,
           aspectRatio: "9/16",
-          padding: "10px 6px 6px",
+          padding: "10px 5px 5px",
           overflow: "hidden",
         }}>
           {/* Header do celular */}
-          <div style={{
-            textAlign: "center", marginBottom: 8,
-          }}>
+          <div style={{ textAlign: "center", marginBottom: 8 }}>
             <span style={{
-              fontSize: 9, letterSpacing: 1.5, fontWeight: 800,
+              fontSize: 9, letterSpacing: 1, fontWeight: 800,
               background: "linear-gradient(90deg, #00f0ff, #ff00d4)",
               WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-            }}>CINEFX</span>
+            }}>CineFX</span>
           </div>
           {/* Categorias compactas */}
           <div style={{ overflow: "hidden" }}>
             {CATEGORIES.slice(3, 7).map((c) => (
-              <CategoryRow key={c.name} category={c} posterHeight={32} />
+              <CategoryRow key={c.name} category={c} posterHeight={28} count={3} />
             ))}
           </div>
         </div>
