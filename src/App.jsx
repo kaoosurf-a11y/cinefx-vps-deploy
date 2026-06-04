@@ -305,20 +305,20 @@ function PosterCard({ src, fallback = "#1a0030", height = 80 }) {
 
 function CategoryRow({ category, posterHeight = 80, count = 4 }) {
   return (
-    <div style={{ marginBottom: posterHeight > 60 ? 12 : 8 }}>
+    <div style={{ marginBottom: posterHeight > 60 ? 10 : 7 }}>
       <div style={{
-        display: "flex", alignItems: "center", gap: 6,
-        marginBottom: 5, paddingLeft: 2,
+        display: "flex", alignItems: "center", gap: 5,
+        marginBottom: 4, paddingLeft: 2,
       }}>
-        <span style={{ fontSize: posterHeight > 60 ? 13 : 10 }}>{category.icon}</span>
+        <span style={{ fontSize: posterHeight > 60 ? 12 : 9 }}>{category.icon}</span>
         <span style={{
-          fontSize: posterHeight > 60 ? 11 : 8,
+          fontSize: posterHeight > 60 ? 10 : 7.5,
           fontWeight: 700,
           color: "rgba(255,255,255,0.95)",
-          letterSpacing: 0.5,
+          letterSpacing: 0.3,
         }}>{category.name}</span>
       </div>
-      <div style={{ display: "flex", gap: 5, paddingLeft: 2 }}>
+      <div style={{ display: "flex", gap: 4, paddingLeft: 2 }}>
         {Array.from({ length: count }).map((_, i) => (
           <PosterCard
             key={i}
@@ -334,42 +334,42 @@ function CategoryRow({ category, posterHeight = 80, count = 4 }) {
 
 function HeroMockup() {
   return (
-    <div style={{ position: "relative", width: "100%", maxWidth: 580, margin: "0 auto", paddingBottom: 50 }}>
+    <div style={{ position: "relative", width: "100%", maxWidth: 600, margin: "0 auto", paddingBottom: 60 }}>
       {/* TV principal */}
       <div style={{
         position: "relative",
         background: "linear-gradient(180deg, #1a1030 0%, #0a0518 100%)",
         border: "2px solid rgba(0,240,255,0.35)",
-        borderRadius: 18,
+        borderRadius: 20,
         padding: 12,
         boxShadow: "0 30px 80px rgba(0,0,0,0.8), 0 0 100px rgba(0,240,255,0.25)",
       }}>
         <div style={{
-          borderRadius: 10,
+          borderRadius: 12,
           overflow: "hidden",
           aspectRatio: "16/9",
           position: "relative",
-          padding: "12px 10px 10px",
+          padding: "10px 12px 8px",
           background: "linear-gradient(135deg, #100022 0%, #050015 100%)",
         }}>
           {/* Header da TV */}
           <div style={{
             display: "flex", justifyContent: "space-between", alignItems: "center",
-            marginBottom: 10, padding: "0 4px",
+            marginBottom: 8, padding: "0 2px",
           }}>
             <span style={{
-              fontSize: 15, letterSpacing: 1, fontWeight: 800,
+              fontSize: 14, letterSpacing: 1, fontWeight: 800,
               background: "linear-gradient(90deg, #00f0ff, #ff00d4)",
               WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
             }}>CineFX</span>
-            <span style={{ color: "rgba(255,255,255,0.55)", fontSize: 8, letterSpacing: 1, fontWeight: 600 }}>
+            <span style={{ color: "rgba(255,255,255,0.55)", fontSize: 7.5, letterSpacing: 1, fontWeight: 600 }}>
               <span style={{ color: "#ff006e", marginRight: 3 }}>●</span>AO VIVO
             </span>
           </div>
-          {/* Categorias */}
+          {/* Categorias — 4 linhas com 7 posters cada para preencher horizontalmente */}
           <div style={{ overflow: "hidden" }}>
-            {CATEGORIES.slice(0, 3).map((c) => (
-              <CategoryRow key={c.name} category={c} posterHeight={50} count={5} />
+            {CATEGORIES.slice(0, 4).map((c) => (
+              <CategoryRow key={c.name} category={c} posterHeight={40} count={7} />
             ))}
           </div>
         </div>
@@ -379,37 +379,37 @@ function HeroMockup() {
         </div>
       </div>
 
-      {/* Celular flutuante */}
+      {/* Celular flutuante — maior e mais visível */}
       <div style={{
         position: "absolute",
-        bottom: 0, right: -8,
-        width: 130,
+        bottom: 0, right: -14,
+        width: 155,
         background: "linear-gradient(180deg, #1a1030, #0a0518)",
         border: "2px solid rgba(255,0,212,0.5)",
-        borderRadius: 22,
-        padding: 5,
+        borderRadius: 26,
+        padding: 6,
         boxShadow: "0 25px 60px rgba(0,0,0,0.7), 0 0 70px rgba(255,0,212,0.35)",
         transform: "rotate(5deg)",
       }}>
         <div style={{
           background: "linear-gradient(135deg, #100022, #050015)",
-          borderRadius: 18,
+          borderRadius: 20,
           aspectRatio: "9/16",
-          padding: "10px 5px 5px",
+          padding: "12px 6px 6px",
           overflow: "hidden",
         }}>
           {/* Header do celular */}
-          <div style={{ textAlign: "center", marginBottom: 8 }}>
+          <div style={{ textAlign: "center", marginBottom: 10 }}>
             <span style={{
-              fontSize: 9, letterSpacing: 1, fontWeight: 800,
+              fontSize: 11, letterSpacing: 1.2, fontWeight: 800,
               background: "linear-gradient(90deg, #00f0ff, #ff00d4)",
               WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
             }}>CineFX</span>
           </div>
-          {/* Categorias compactas */}
+          {/* 3 categorias com 4 posters — preenchimento bom */}
           <div style={{ overflow: "hidden" }}>
-            {CATEGORIES.slice(3, 7).map((c) => (
-              <CategoryRow key={c.name} category={c} posterHeight={28} count={3} />
+            {CATEGORIES.slice(4, 7).map((c) => (
+              <CategoryRow key={c.name} category={c} posterHeight={34} count={4} />
             ))}
           </div>
         </div>
